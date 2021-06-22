@@ -21,11 +21,11 @@ const expressSwagger = require('express-swagger-generator')(app);
 expressSwagger({
   swaggerDefinition: {
     info: {
-      title: process.env.SWAGGER_TITLE,
-      description: process.env.SWAGGER_DESCRIPTION,
-      version: process.env.SWAGGER_VERSION,
+      title: process.env.SWAGGER_TITLE || 'LX Test Exam - API Documentation', 
+      description: process.env.SWAGGER_DESCRIPTION || '',
+      version: process.env.SWAGGER_VERSION || 'Create API\'s based on the requirement',
     },
-    host: process.env.SWAGGER_API_HOST,
+    host: process.env.SWAGGER_API_HOST || 'john-michael-ong-test-rest-api.herokuapp.com',
     consumes: [
       'application/json'
     ],
