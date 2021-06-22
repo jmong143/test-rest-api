@@ -9,6 +9,8 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import indexRouter from './routes/index';
+import swaggerJsdoc from 'swagger-jsdoc'
+import swaggerUi from 'swagger-ui-express'
 
 dotenv.config();
 
@@ -16,35 +18,51 @@ const app = express();
 const environment = process.env.NODE_ENV || 'development';
 
 // Swagger Init
-const expressSwagger = require('express-swagger-generator')(app);
+// const expressSwagger = require('express-swagger-generator')(app);
 
-expressSwagger({
-  swaggerDefinition: {
+// expressSwagger({
+//   swaggerDefinition: {
+//     info: {
+//       title: process.env.SWAGGER_TITLE || 'LX Test Exam - API Documentation', 
+//       description: process.env.SWAGGER_DESCRIPTION || '',
+//       version: process.env.SWAGGER_VERSION || 'Create API\'s based on the requirement',
+//     },
+//     host: process.env.SWAGGER_API_HOST || 'john-michael-ong-test-rest-api.herokuapp.com',
+//     consumes: [
+//       'application/json'
+//     ],
+//     produces: [
+//       'application/json'
+//     ],
+//     schemes: ['http', 'https'],  },
+//   basedir: __dirname, // app absolute path
+//   files: ['./controllers/*.js'] // Path to the API handle folder
+// });
+
+const options = {
+  definition: {
+    openapi: "3.0.0",
     info: {
-      title: process.env.SWAGGER_TITLE || 'LX Test Exam - API Documentation', 
-      description: process.env.SWAGGER_DESCRIPTION || '',
-      version: process.env.SWAGGER_VERSION || 'Create API\'s based on the requirement',
+      title: "LX Test Exam - API Documentation",
+      version: "0.1.0",
+      description:
+        "Create API's based on the requirement",
+      contact: {
+        name: "John Michael Ong",
+        email: "jhonlance.37@gmail.com",
+      },
     },
-    host: process.env.SWAGGER_API_HOST || 'john-michael-ong-test-rest-api.herokuapp.com',
-    consumes: [
-      'application/json'
+    servers: [
+      {
+        url: process.env.SWAGGER_API_HOST || "https://john-michael-ong-test-rest-api.herokuapp.com/",
+      },
     ],
-    produces: [
-      'application/json'
-    ],
-    schemes: ['http', 'https'],
-    securityDefinitions: {
-      JWT: {
-        type: 'apiKey',
-        in: 'header',
-        name: 'Authorization',
-        description: 'Authentication Token for NodeJS API Boilerplate',
-      }
-    }
   },
-  basedir: __dirname, // app absolute path
-  files: ['./controllers/*.js'] // Path to the API handle folder
-});
+  apis: ["./routes/index.js"]
+};
+
+const specs = swaggerJsdoc(options);
+
 
 app.use(cors());
 app.use(logger('dev'));
@@ -53,6 +71,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use('/', indexRouter);
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(specs)
+);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

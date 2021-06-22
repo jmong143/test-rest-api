@@ -1,1 +1,1 @@
-export { default as contentCtrl } from './content';
+export { default as ContentController } from './content';
