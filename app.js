@@ -17,28 +17,6 @@ dotenv.config();
 const app = express();
 const environment = process.env.NODE_ENV || 'development';
 
-// Swagger Init
-// const expressSwagger = require('express-swagger-generator')(app);
-
-// expressSwagger({
-//   swaggerDefinition: {
-//     info: {
-//       title: process.env.SWAGGER_TITLE || 'LX Test Exam - API Documentation', 
-//       description: process.env.SWAGGER_DESCRIPTION || '',
-//       version: process.env.SWAGGER_VERSION || 'Create API\'s based on the requirement',
-//     },
-//     host: process.env.SWAGGER_API_HOST || 'john-michael-ong-test-rest-api.herokuapp.com',
-//     consumes: [
-//       'application/json'
-//     ],
-//     produces: [
-//       'application/json'
-//     ],
-//     schemes: ['http', 'https'],  },
-//   basedir: __dirname, // app absolute path
-//   files: ['./controllers/*.js'] // Path to the API handle folder
-// });
-
 const options = {
   definition: {
     openapi: "3.0.0",
